@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADSA SP19 EOH</title>
+  <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+
+<body>
+  <div id="content">
+    <div id="tweet">
+
+      <div id="profile">
+        <img id="profilePhoto" />
+        <h2 class="handle">@ADSA_EOH_2019</h2>
+      </div>
+
+      <div id="tweetTextContainer">
+        <p id="tweetText">
+          UIUC ADSA tweet generator using markov chains.
+        </p>
+      </div>
+    </div>
+
+    <div id="setup">
+      <div id="setHandle">
+        <span>@ <input placeholder="Username" type="text" id="handle" /></span>
+        <button value="nil" id="setHandleBtn">Select</button>
+      </div>
+
+      <div id="weightSliders">
+        <span class="selector">User</span>
+        <input type="range" min="0" max="1" value=".5" step="0.1" class="slider" id="selectorRange">
+        <span class="selector">Corpus</span>
+      </div>
+
+      <div id="generate">
+        <button value="false" id="generateBtn">Generate</button>
+      </div>
+    </div>
+  </div>
+  <script src="index.js" type="javascript"></script>
+</body>
+
+</html>
