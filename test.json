@@ -1,0 +1,11 @@
+{
+  "text1":
+  {
+    "fi_name": "test.txt",
+    "weight": 1
+  },
+  "text2":{
+    "fi_name": "test2.txt",
+    "weight": 1
+  }
+}
