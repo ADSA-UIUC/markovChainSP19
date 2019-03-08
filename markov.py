@@ -39,10 +39,13 @@ def makerule(textsets, weights, context):
     '''Make a rule dict for given data.'''
     rule = {}
     # words = nltk.word_tokenize(data)
+    # Get all words for all the datasets
     wordsets = [d.split() for d in textsets]
     index = context
+    # Get all the sentences in both datasets
     sentsets = [nltk.sent_tokenize(d) for d in textsets]
     start_keys = []
+    # Extract starting words for all sentences
     for i in sentsets:
         for j in i:
             word_ = nltk.word_tokenize(j)
@@ -51,7 +54,9 @@ def makerule(textsets, weights, context):
             except:
                 pass
     total_words = sum([len(d) for d in wordsets])
-
+    # Creating mapping, N : N+1th word and store in a dict for
+    # both datasets and weight them according to the norm and
+    # the given datasets
     for i, words in enumerate(wordsets):
         norm = total_words / len(words)
         for word in words[index:]:
@@ -66,38 +71,33 @@ def makerule(textsets, weights, context):
     return rule, start_keys
 
 
-def makerule_sent(textsets, weights, context):
-    rule = {}
-    # words = nltk.word_tokenize(data)
-
-    with open("abc.txt", "w+") as fout:
-        fout.write(str(sentsets))
-    index = context
-    total_words = sum([len(d) for d in wordsets])
-
-
 def makestring(rule, start_keys, length):
     '''Use a given rule to make a string.'''
-    oldwords = random.choice(list(rule.keys())).split(
-        ' ')  # random starting words
+    #  Get a starting word randomly
     string = random.choice(start_keys)+' '
     oldwords = string.split()
     print(oldwords)
+    # Iterate till number of sentences are reached
     while length > 0:
         try:
+            # Get new key
             key = ' '.join(oldwords)
             word_choices = []
             choice_distribution = []
+            # Get distributions and words for next choice
             for word_choice, weight in rule[key].items():
                 word_choices.append(word_choice)
                 choice_distribution.append(weight)
-
+            # Normalize the distribution
             choice_distribution = choice_distribution / \
                 np.sum(choice_distribution)
+            # Choose word based on distribution
             newword = np.random.choice(word_choices, p=choice_distribution)
             string += newword + ' '
+            # Check for ending punctuation
             if "." in newword or "!" in newword or "?" in newword:
                 length -= 1
+            # Update oldwords
             for word in range(len(oldwords)):
                 oldwords[word] = oldwords[(word + 1) % len(oldwords)]
             oldwords[-1] = newword
@@ -122,6 +122,8 @@ def _parse_input(json_fi):
 
 if __name__ == '__main__':
     datasets, weights = _parse_input(sys.argv[1])  # json fi name
-    rule, start_keys = makerule(datasets, weights, int(sys.argv[2]))  # context
-    string = makestring(rule, start_keys, int(sys.argv[3]))  # length
+    rule, start_keys = makerule(datasets, weights, int(
+        sys.argv[2]))  # context ( no of words in a chain)
+    string = makestring(rule, start_keys, int(
+        sys.argv[3]))  # length of sentence
     print(string)
