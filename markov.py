@@ -6,7 +6,6 @@ import nltk
 import re
 import json
 
-
 def readdata(file):
     '''Read file and return contents.'''
     with open(file) as f:
@@ -20,7 +19,7 @@ def makerule(data, context):
     # words = nltk.word_tokenize(data)
     words = re.compile("\s").split(data)
     index = context
-    print("HERE")
+    # print("HERE")
     for word in words[index:]:
         key = ' '.join(words[index-context:index])
         if key not in rule:
@@ -46,17 +45,18 @@ def makerule(textsets, weights, context):
     sentsets = [nltk.sent_tokenize(d) for d in textsets]
     start_keys = []
     # Extract starting words for all sentences
-    for i in sentsets:
-        for j in i:
-            word_ = nltk.word_tokenize(j)
-            try:
-                start_keys.append(" ".join(word_[:context]))
-            except:
-                pass
+    # print("w0", type(wordsets[0]))
+    for i in nltk.sent_tokenize(textsets[0]):
+        word_ = nltk.word_tokenize(i)
+        try:
+            start_keys.append(" ".join(word_[:context]))
+        except:
+            pass
     total_words = sum([len(d) for d in wordsets])
     # Creating mapping, N : N+1th word and store in a dict for
     # both datasets and weight them according to the norm and
     # the given datasets
+    # print('hello im here')
     for i, words in enumerate(wordsets):
         norm = total_words / len(words)
         for word in words[index:]:
@@ -68,6 +68,8 @@ def makerule(textsets, weights, context):
             else:
                 rule[key][word] = weights[i] * norm
             index += 1
+    # print('heyyyyo')
+    # print(start_keys)
     return rule, start_keys
 
 
@@ -80,7 +82,9 @@ def makestring(rule, start_keys, length):
         oldwords = string.split()
         # Iterate till number of sentences are reached
         boo = True
+        # print('here the third')
         while length > 0 and boo:
+            # print(string)
             try:
                 # Get new key
                 key = ' '.join(oldwords)
@@ -124,6 +128,16 @@ def _parse_input(json_fi):
 
     return datasets, weights
 
+def run_tweet_generator(tweets, tweet_weight):
+    datasets = []
+    datasets.append(tweets)
+    datasets.append(readdata('test2.txt'))
+    weights = [tweet_weight, 1 - tweet_weight]
+
+    rule, start_keys = makerule(datasets, weights, 2)
+    tweet = makestring(rule, start_keys, 2)
+
+    return tweet
 
 if __name__ == '__main__':
     datasets, weights = _parse_input(sys.argv[1])  # json fi name
