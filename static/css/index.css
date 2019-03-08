@@ -64,6 +64,11 @@ h2 {
   grid-template-rows: 30% 70%;
 }
 
+#tweetText {
+  font-size: 2em;
+  padding: 5px;
+}
+
 #setup {
   width: auto;
   position: relative;
