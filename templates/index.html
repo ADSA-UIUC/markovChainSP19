@@ -1,13 +1,17 @@
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ADSA SP19 EOH</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
 <div id="content">
   <div id="tweet">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
 
+    {% for message in messages %}
+    {% if "Error" not in message[1]: %}
     <div id="profile">
       <img id="profilePhoto" />
-      <h2 class="handle">@ADSA_EOH_2019</h2>
+      <h2 class="handle">@{{ message[1] }}</h2>
     </div>
 
     <div id="tweetTextContainer">
@@ -15,23 +19,32 @@
         UIUC ADSA tweet generator using markov chains.
       </p>
     </div>
+    {% endif %}
+
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
   </div>
 
-  <div id="setup">
-    <div id="setHandle">
-      <span>@ <input placeholder="Username" type="text" id="handle" /></span>
-      <button value="nil" id="setHandleBtn">Select</button>
-    </div>
+  <form action="" method="post" role="form">
+    {{ form.csrf }}
+    <div id="setup">
+      <div id="setHandle">
+        <span>@ <input placeholder="Username" class="form-control" type="text" id="handle" name="handle" /></span>
+        <button value="nil" id="setHandleBtn" type="submit">Select</button>
+      </div>
 
-    <div id="weightSliders">
-      <span class="selector">User</span>
-      <input type="range" min="0" max="1" value=".5" step="0.1" class="slider" id="selectorRange">
-      <span class="selector">Corpus</span>
-    </div>
+      <div id="weightSliders">
+        <span class="selector">User</span>
+        <input type="range" min="0" max="1" value=".5" step="0.1" class="slider" id="selectorRange">
+        <span class="selector">Corpus</span>
+      </div>
+  </form>
 
-    <div id="generate">
-      <button value="false" id="generateBtn">Generate</button>
-    </div>
+  <div id="generate">
+    <button value="false" id="generateBtn">Generate</button>
   </div>
+</div>
 </div>
 <script src="{{ url_for('static', filename='css/index.css') }}" type="javascript"></script>

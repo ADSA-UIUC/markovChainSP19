@@ -9,24 +9,24 @@ app.config.from_object(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 class ReusableForm(Form):
-    name = TextField('Name:', validators=[validators.required()])
+    handle = TextField('Handle', validators=[validators.required()])
 
 @app.route("/", methods=['GET', 'POST'])
-def hello():
-    # form = ReusableForm(request.form)
-    #
-    # print(form.errors)
-    # if request.method == 'POST':
-    #     name=request.form['name']
-    #     print(name)
-    #
-    # if form.validate():
-    #     # Save the comment here.
-    #     flash('Hello ' + name)
-    # else:
-    #     flash('Error: All the form fields are required. ')
+def index():
+    form = ReusableForm(request.form)
 
-    return render_template('index.html')
+    print(form.errors)
+    if request.method == 'POST':
+        handle = request.form['handle']
+        print(handle)
+
+    if form.validate():
+        # Save the comment here.
+        flash(handle)
+    else:
+        flash('ADSA_EOH_2019 ')
+
+    return render_template('index.html', form=form)
 
 if __name__ == "__main__":
     app.run()
