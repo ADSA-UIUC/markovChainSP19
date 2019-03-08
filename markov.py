@@ -74,35 +74,40 @@ def makerule(textsets, weights, context):
 def makestring(rule, start_keys, length):
     '''Use a given rule to make a string.'''
     #  Get a starting word randomly
-    string = random.choice(start_keys)+' '
-    oldwords = string.split()
-    print(oldwords)
-    # Iterate till number of sentences are reached
-    while length > 0:
-        try:
-            # Get new key
-            key = ' '.join(oldwords)
-            word_choices = []
-            choice_distribution = []
-            # Get distributions and words for next choice
-            for word_choice, weight in rule[key].items():
-                word_choices.append(word_choice)
-                choice_distribution.append(weight)
-            # Normalize the distribution
-            choice_distribution = choice_distribution / \
-                np.sum(choice_distribution)
-            # Choose word based on distribution
-            newword = np.random.choice(word_choices, p=choice_distribution)
-            string += newword + ' '
-            # Check for ending punctuation
-            if "." in newword or "!" in newword or "?" in newword:
-                length -= 1
-            # Update oldwords
-            for word in range(len(oldwords)):
-                oldwords[word] = oldwords[(word + 1) % len(oldwords)]
-            oldwords[-1] = newword
-        except KeyError:
-            return string
+    boo1 = True
+    while boo1:
+        string = random.choice(start_keys)+' '
+        oldwords = string.split()
+        # Iterate till number of sentences are reached
+        boo = True
+        while length > 0 and boo:
+            try:
+                # Get new key
+                key = ' '.join(oldwords)
+                word_choices = []
+                choice_distribution = []
+                # Get distributions and words for next choice
+                for word_choice, weight in rule[key].items():
+                    word_choices.append(word_choice)
+                    choice_distribution.append(weight)
+                # Normalize the distribution
+                choice_distribution = choice_distribution / \
+                    np.sum(choice_distribution)
+                # Choose word based on distribution
+                newword = np.random.choice(word_choices, p=choice_distribution)
+                string += newword + ' '
+                # Check for ending punctuation
+                if "." in newword or "!" in newword or "?" in newword:
+                    length -= 1
+                # Update oldwords
+                if len(string) > 200:
+                    boo = False
+                for word in range(len(oldwords)):
+                    oldwords[word] = oldwords[(word + 1) % len(oldwords)]
+                oldwords[-1] = newword
+            except KeyError:
+                boo1 = True
+        boo1 = False
     return string
 
 
