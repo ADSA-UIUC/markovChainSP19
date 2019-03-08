@@ -1,0 +1,79 @@
+html, body {
+  width: 100%;
+  height: 100%;
+
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+#content {
+  width: 50%;
+  height: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  background-color: white;
+  border: 2px solid #2FC2EF;
+  border-radius: 5px;
+
+  position: relative;
+
+  display: grid;
+  grid-template-rows: 70% 30%;
+}
+
+h2 {
+    color: #292f33;
+}
+
+#setup {
+  width: auto;
+  position: relative;
+  padding: 2em;
+  text-align: center;
+
+  column-count: 3;
+
+}
+
+#tweet {
+  width: 100%;
+  padding: 2em;
+  position: relative;
+
+  display: grid;
+  grid-template-rows: 30% 70%;
+}
+
+#profile {
+  /* column-count: 2; */
+  margin: 2px;
+}
+
+#profilePhoto {
+  width: 50px;
+  height: 50px;
+  background-color: red;
+  column-width: 50px;
+
+  float: left;
+  margin: 10px;
+}
+
+#tweetTextContainer {
+  margin: 1em;
+  text-align: left;
+}
+
+#sliders {
+  width: auto;
+  position: relative;
+  padding: 2em;
+  text-align: center;
+}
