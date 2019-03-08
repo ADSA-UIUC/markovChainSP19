@@ -8,4 +8,8 @@
     "fi_name": "test2.txt",
     "weight": 1
   }
+, "text3":{
+    "fi_name": "test3.txt",
+    "weight": 1
+  }
 }
