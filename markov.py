@@ -6,6 +6,7 @@ import nltk
 import re
 import json
 
+
 def readdata(file):
     '''Read file and return contents.'''
     with open(file) as f:
@@ -70,28 +71,38 @@ def makerule(textsets, weights, context):
             index += 1
     # print('heyyyyo')
     # print(start_keys)
+    # with open("rule_keys", "w+") as fout:
+    #     fout.write(str(rule))
+    #     fout.write(str(start_keys))
     return rule, start_keys
 
 
 def makestring(rule, start_keys, length):
     '''Use a given rule to make a string.'''
     #  Get a starting word randomly
+    string = ""
+    print("In makestring")
     boo1 = True
     while boo1:
+        print("Trying to make tweet")
+        stringold = string
         string = random.choice(start_keys)+' '
         oldwords = string.split()
         # Iterate till number of sentences are reached
         boo = True
         # print('here the third')
         while length > 0 and boo:
-            # print(string)
+            print("In inner loop")
+            print(string)
+            stringold = string
+            # Get new key
+            key = ' '.join(oldwords)
             try:
-                # Get new key
-                key = ' '.join(oldwords)
                 word_choices = []
                 choice_distribution = []
                 # Get distributions and words for next choice
                 for word_choice, weight in rule[key].items():
+                    print("In loop to get distributions")
                     word_choices.append(word_choice)
                     choice_distribution.append(weight)
                 # Normalize the distribution
@@ -99,6 +110,10 @@ def makestring(rule, start_keys, length):
                     np.sum(choice_distribution)
                 # Choose word based on distribution
                 newword = np.random.choice(word_choices, p=choice_distribution)
+                if stringold == (string+newword):
+                    boo = False
+                    boo1 = True
+                    break
                 string += newword + ' '
                 # Check for ending punctuation
                 if "." in newword or "!" in newword or "?" in newword:
@@ -107,6 +122,7 @@ def makestring(rule, start_keys, length):
                 if len(string) > 200:
                     boo = False
                 for word in range(len(oldwords)):
+                    print("In oldwords loop")
                     oldwords[word] = oldwords[(word + 1) % len(oldwords)]
                 oldwords[-1] = newword
             except KeyError:
@@ -128,6 +144,7 @@ def _parse_input(json_fi):
 
     return datasets, weights
 
+
 def run_tweet_generator(tweets, tweet_weight):
     datasets = []
     datasets.append(tweets)
@@ -138,6 +155,7 @@ def run_tweet_generator(tweets, tweet_weight):
     tweet = makestring(rule, start_keys, 2)
 
     return tweet
+
 
 if __name__ == '__main__':
     datasets, weights = _parse_input(sys.argv[1])  # json fi name
