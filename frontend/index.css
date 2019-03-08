@@ -28,18 +28,31 @@ html, body {
   grid-template-rows: 70% 30%;
 }
 
-h2 {
-    color: #292f33;
+#profile {
+  margin: 2px;
 }
 
-#setup {
-  width: auto;
-  position: relative;
-  padding: 2em;
-  text-align: center;
+h2 {
+    color: #292f33;
+    padding-top: calc(40px - 1em);
+    position: relative;
+}
 
-  column-count: 3;
+#profilePhoto {
+  width: 80px;
+  height: 80px;
+  background-color: green;
+  border: 2px;
+  border-radius: 10px;
+  column-width: 50px;
 
+  float: left;
+  margin: 10px;
+}
+
+#tweetTextContainer {
+  margin: 1em;
+  text-align: left;
 }
 
 #tweet {
@@ -51,24 +64,14 @@ h2 {
   grid-template-rows: 30% 70%;
 }
 
-#profile {
-  /* column-count: 2; */
-  margin: 2px;
-}
+#setup {
+  width: auto;
+  position: relative;
+  padding: 2em;
+  text-align: center;
 
-#profilePhoto {
-  width: 50px;
-  height: 50px;
-  background-color: red;
-  column-width: 50px;
+  column-count: 3;
 
-  float: left;
-  margin: 10px;
-}
-
-#tweetTextContainer {
-  margin: 1em;
-  text-align: left;
 }
 
 #sliders {
